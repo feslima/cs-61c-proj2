@@ -18,7 +18,7 @@
 .globl print_int, print_str, atoi, sbrk, exit, print_char, fopen, fread, fwrite, fclose, exit2, fflush, ferror, print_hex
 
 # helper functions
-.globl file_error, print_int_array, malloc, free, print_num_alloc_blocks, num_alloc_blocks
+.globl file_error, print_int_array, malloc, free, print_num_alloc_blocks, num_alloc_blocks, max
 
 .data
 error_string: .string "This library file should not be directly called!"
@@ -376,4 +376,22 @@ outer_loop_end:
     lw ra 20(sp)
     addi sp sp 24
 
+    ret
+
+#================================================================
+# int max(int a1, int a2)
+# returns the max of a1 and a2
+# args:
+#   a1 is a
+#   a2 is b
+# return:
+#   a0 is the result of max(a, b)
+#================================================================
+max:
+    bge a1, a2, set_a1
+    mv a0, a2
+    ret
+
+set_a1:
+    mv a0, a1
     ret
