@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Dot should error on empty vector",
+        "id": "dot",
+        "test_file": "test_dot_empty_vector_validation.s",
+        "args": [
+            "-it",
+            "-ms",
+            "-1"
+        ],
+        "stdout": null,
+        "exitcode": 5
+    },
+    {
+        "name": "Dot should error on vector with no stride",
+        "id": "dot",
+        "test_file": "test_dot_no_stride_vector_validation.s",
+        "args": [
+            "-it",
+            "-ms",
+            "-1"
+        ],
+        "stdout": null,
+        "exitcode": 6
+    }
+]

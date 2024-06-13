@@ -18,22 +18,21 @@
 # this function exits with error code 6.
 # =======================================================
 dot:
+    ble a2, zero, error_empty_vector
+    ble a3, zero, error_no_stride
+    ble a4, zero, error_no_stride
 
     # Prologue
 
+error_empty_vector:
+    li a1 5
+    jal exit2
+
+error_no_stride:
+    li a1 6
+    jal exit2
 
 loop_start:
-
-
-
-
-
-
-
-
-
-
-
 
 loop_end:
 
