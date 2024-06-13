@@ -13,8 +13,14 @@
 # this function exits with error code 8.
 # ==============================================================================
 relu:
+    li t0, 1
+    blt a1, t0, error_too_small
+
     # Prologue
 
+error_too_small:
+    li a1 8
+    jal exit2
 
 loop_start:
     

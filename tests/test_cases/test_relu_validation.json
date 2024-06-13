@@ -1,0 +1,12 @@
+{
+    "name": "Relu should error on too small",
+    "id": "relu",
+    "test_file": "test_relu_validation.s",
+    "args": [
+        "-it",
+        "-ms",
+        "-1"
+    ],
+    "stdout": null,
+    "exitcode": 8
+}
