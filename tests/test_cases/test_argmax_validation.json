@@ -1,0 +1,12 @@
+{
+    "name": "Argmax should error on empty vector",
+    "id": "argmax",
+    "test_file": "test_argmax_validation.s",
+    "args": [
+        "-it",
+        "-ms",
+        "-1"
+    ],
+    "stdout": null,
+    "exitcode": 7
+}

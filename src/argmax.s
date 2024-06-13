@@ -15,9 +15,14 @@
 # this function exits with error code 7.
 # =================================================================
 argmax:
+    li t0, 1
+    blt a1, t0, error_empty_vector
 
     # Prologue
 
+error_empty_vector:
+    li a1 7
+    jal exit2
 
 loop_start:
 
