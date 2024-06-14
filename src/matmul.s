@@ -25,7 +25,17 @@
 matmul:
 
     # Error checks
+    li t0, 2
+    ble a1, zero, error_matrix
+    ble a2, zero, error_matrix
 
+    li t0, 3
+    ble a4, zero, error_matrix
+    ble a5, zero, error_matrix
+
+    li t0, 4
+    sub t1, a2, a4  # must be zero (cols_m0 == rows_m1)
+    bnez t1, error_matrix
 
     # Prologue
 
@@ -60,3 +70,7 @@ outer_loop_end:
     
     
     ret
+    
+error_matrix:
+    add a1, t0, zero 
+    jal exit2
