@@ -1,5 +1,5 @@
-import os
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -8,11 +8,12 @@ dirname = Path(dirname).resolve()
 VENUS_PATH = "../tools/venus.jar"
 VENUS_PATH = os.path.join(dirname, VENUS_PATH)
 
+
 class FileCompare:
     def __init__(self, reference, student):
         self.reference = reference
         self.student = student
-    
+
     def compare(self) -> bool:
         if not os.path.isfile(self.reference):
             print(f"Could not find the reference file {self.reference}!")
@@ -28,7 +29,7 @@ class FileCompare:
                     return True
                 else:
                     print("~" * 20)
-                    print(f"The student and reference files differed!")
+                    print("The student and reference files differed!")
                     print("~" * 20)
                     print(f"Reference ({self.reference}):")
                     print(ref.hex())
@@ -36,14 +37,29 @@ class FileCompare:
                     print(std.hex())
                     return False
 
+
 class TestCase:
     VENUS_PATH = VENUS_PATH
     TEST_COUNTER = 1
-    def __init__(self, name, test_file, id, args=[], stdout="", stderr="", exitcode=0, cwd=None, timeout=10, compare_files=[], printf=print):
+
+    def __init__(
+        self,
+        name,
+        test_file,
+        id,
+        args=None,
+        stdout="",
+        stderr="",
+        exitcode=0,
+        cwd=None,
+        timeout=10,
+        compare_files=[],
+        printf=print,
+    ):
         self.name = name
         self.test_file = test_file
         self.id = id
-        self.args = args
+        self.args = args or []
         self.stdout = stdout
         self.stderr = stderr
         self.exitcode = exitcode
@@ -60,9 +76,16 @@ class TestCase:
             self.TEST_COUNTER += 1
             self.printf("*" * 40)
             filepath = os.path.join(test_file_path, self.test_file)
-            p = subprocess.Popen(["java", "-jar", self.VENUS_PATH, filepath] + self.args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=self.cwd, universal_newlines = True, bufsize=100)
+            p = subprocess.Popen(
+                ["java", "-jar", self.VENUS_PATH, filepath] + self.args,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                cwd=self.cwd,
+                universal_newlines=True,
+                bufsize=100,
+            )
             try:
-                out, err = p.communicate(timeout = self.timeout)
+                out, err = p.communicate(timeout=self.timeout)
             except subprocess.TimeoutExpired:
                 p.kill()
                 self.printf("The test timed out testing your RISC-V function!")
@@ -106,7 +129,7 @@ class TestCase:
             if passing:
                 self.print_end("PASSED")
                 return True
-            else:   
+            else:
                 self.print_end("FAILED")
                 return False
         except Exception as e:
@@ -121,18 +144,19 @@ class TestCase:
         self.printf()
 
     @staticmethod
-    def loadTestFromList(l: list) -> ["TestCase"]:
+    def load_test_from_list(l: list) -> list["TestCase"]:
         tests = []
         for t in l:
-            tests.append(TestCase.loadTest(t))
+            tests.append(TestCase.load_test(t))
         return tests
 
     @staticmethod
-    def loadTest(d: dict) -> "TestCase":
+    def load_test(d: dict) -> "TestCase":
         return TestCase(**d)
 
+
 def load_tests(path):
-    tests = []
+    tests: list[TestCase] = []
     files = os.listdir(path)
     for file in files:
         if file.endswith(".json"):
@@ -140,17 +164,19 @@ def load_tests(path):
                 with open(os.path.join(path, file), "r") as f:
                     t = json.load(f)
                     if isinstance(t, list):
-                        tests += TestCase.loadTestFromList(t)
+                        tests += TestCase.load_test_from_list(t)
                     elif isinstance(t, dict):
-                        tests.append(TestCase.loadTest(t))
+                        tests.append(TestCase.load_test(t))
                     else:
                         print(f"Unknown test input from {file}!")
 
             except Exception:
                 print(f"Could not load tests in {file}!")
                 import traceback
+
                 traceback.print_exc()
     return tests
+
 
 def main(args):
     tests = sorted(load_tests("test_cases"), key=lambda tc: tc.id)
@@ -166,6 +192,8 @@ def main(args):
     print(f"Passed {passed} / {ran} tests!")
     print("=" * 40)
 
+
 if __name__ == "__main__":
     import sys
+
     main(sys.argv)
