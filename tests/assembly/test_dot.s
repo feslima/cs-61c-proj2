@@ -6,12 +6,11 @@
 vector0: .word 1 2 3 4 5 6 7 8 9
 vector1: .word 1 2 3 4 5 6 7 8 9
 l_vector: .word 9
-s_vector0: .word 4
-s_vector1: .word 4
+s_vector0: .word 1
+s_vector1: .word 1
 
-vector2: .byte 1 2 3 4 5 6 7 8 9
-s_vector2: .word 1
-
+l_vector2: .word 3
+s_vector2: .word 2
 
 .text
 # main function for testing
@@ -43,13 +42,13 @@ main:
     
     # Perform dot with different stride
     la a0, vector0
-    la a1, vector2
+    la a1, vector1
 
-    la a2, l_vector # size of vectors
+    la a2, l_vector2 # size of vectors
     lw a2, 0(a2)
-    la a3, s_vector0 # stride of vector0
+    la a3, s_vector0 # stride of vector2
     lw a3, 0(a3)
-    la a4, s_vector2 # stride of vector2
+    la a4, s_vector2 # stride of vector3
     lw a4, 0(a4)
 
     # Call dot function
