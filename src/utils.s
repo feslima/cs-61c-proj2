@@ -18,7 +18,7 @@
 .globl print_int, print_str, atoi, sbrk, exit, print_char, fopen, fread, fwrite, fclose, exit2, fflush, ferror, print_hex
 
 # helper functions
-.globl file_error, print_int_array, malloc, free, print_num_alloc_blocks, num_alloc_blocks, max
+.globl file_error, print_int_array, malloc, free, print_num_alloc_blocks, num_alloc_blocks, max, ind2sub
 
 .data
 error_string: .string "This library file should not be directly called!"
@@ -394,4 +394,20 @@ max:
 
 set_a1:
     mv a0, a1
+    ret
+
+#================================================================
+# int ind2sub(int a1, int a2)
+# returns the indexes of a row-major 2D matrix given its linear 
+# index.
+# args:
+#   a1 is linear index to be converted
+#   a2 is the number of columns of the matrix
+# return:
+#   a0 is the row index
+#   a1 is the column index
+#================================================================
+ind2sub:
+    div a0, a1, a2 
+    rem a1, a1, a2
     ret
