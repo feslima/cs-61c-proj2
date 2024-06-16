@@ -19,5 +19,8 @@ main:
     lw a2, 0(a2)
     jal ra print_int_array
 
+    # deallocate stack space of number of rows and columns
+    addi sp, sp, 8
+
     # Terminate the program
     jal exit
