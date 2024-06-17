@@ -90,7 +90,7 @@ write_matrix:
     lw s4, 16(sp)
     lw s5, 20(sp)
     lw ra, 24(sp)
-    addi sp, sp, -28
+    addi sp, sp, 28
 
     ret
 
